@@ -45,7 +45,10 @@
   (print '(quicksort called on))
   (print xs)
   (cond 
-    ((or (null xs) (equal (mylength xs) 1))
+    ((null xs)
+      xs
+    )
+    ((equal (mylength xs) 1)
       xs)
     ((equal (mylength xs) 2)
       (print 'twoelements)
