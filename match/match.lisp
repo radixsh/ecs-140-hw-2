@@ -1,7 +1,16 @@
-; You may define helper functions here
-
 (defun match (pattern assertion)
-  ;; TODO: incomplete function. 
-  ;; The next line should not be in your solution.
-  (list 'incomplete)
+  (cond
+    ((and (null pattern) (null assertion))
+      t)
+    ((or (null pattern) (null assertion))
+      nil)
+    ((equal (car pattern) (car assertion))
+      (match (cdr pattern) (cdr assertion)))
+    ((eql (car pattern) '?)
+      (match (cdr pattern) (cdr assertion)))
+    ((equal (car pattern) '!)
+      (or (match (cdr pattern) (cdr assertion)) (match pattern (cdr assertion))))
+    (t
+      nil)
+  )
 )
