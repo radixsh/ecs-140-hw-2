@@ -1,7 +1,16 @@
-; You may define helper functions here
-
 (defun reachable (transition start final input)
-    ;; TODO: Incomplete function
-    ;; The next line should not be in your solution.
-    (list 'incomplete)
+    (cond
+        ((null input)
+            (eql start final)
+        )
+        (t
+            (mapcar 
+                (lambda (onestate)
+                    (print onestate)
+                    (reachable transition onestate final (cdr input))
+                )
+                (funcall transition start (car input))
+            )
+        )
+    )
 )
