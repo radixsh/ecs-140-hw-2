@@ -4,12 +4,22 @@
             (eql start final)
         )
         (t
-            (mapcar 
-                (lambda (onestate)
-                    (reachable transition onestate final (cdr input))
+            (let (listtoflatten 
+                (carmap
+                    (lambda (onestate)
+                        (reachable transition onestate final (cdr input))
+                    )
+                    (funcall transition start (car input))
+                ))
+
+                (funcall
+                    (lambda (thing)
+                        (print thing)
+                    ) 
+                    listtoflatten
                 )
-                (funcall transition start (car input))
             )
+            
         )
     )
 )
