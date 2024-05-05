@@ -1,5 +1,6 @@
+; I didn't end up using this
 (defun pivot (n xs)
-  (list (lower n xs) (list n) (upper n xs))
+  (list (lower n xs) (upper n xs))
 )
 
 (defun lower (n mylist)
@@ -37,8 +38,6 @@
 )
 
 (defun quicksort (xs)
-  (print '(quicksort called on))
-  (print xs)
   (cond
     ((null xs) 
       nil
