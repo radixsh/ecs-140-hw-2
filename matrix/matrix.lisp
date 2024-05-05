@@ -4,7 +4,8 @@
       nil
     )
     (t
-      (cons (+ (car first) (car second)) 
+      (cons
+        (+ (car first) (car second)) 
         (row-add (cdr first) (cdr second))
       )
     )
@@ -24,7 +25,7 @@
       (matrix-add (car first) (car second))
     )
     (t
-      (list (matrix-add (car first) (car second))
+      (cons (matrix-add (car first) (car second))
             (matrix-add (cdr first) (cdr second))
       )
     )
@@ -32,33 +33,30 @@
 )
 
 ; ((1 2) (3 4)) --> (1 3)
-(defun getfirst (listoflists)
+(defun get-first (listoflists)
   (cond
     ((null (car listoflists))
       nil
     )
     ((null (cdr listoflists)) ; look ahead
-      (car (car listoflists))
+      (cons (car (car listoflists)) nil)
     )
     (t
-      ;(list 
-        (cons (car (car listoflists)) (getfirst (cdr listoflists)))
-        ;(list (cdr (car listoflists)) (cdr (car (cdr listoflists))))
-      ;)
+      (cons (car (car listoflists)) (get-first (cdr listoflists)))
     )
   )
 )
 
-(defun getrem (listoflists)
+(defun get-rest (listoflists)
   (cond
     ((null (car listoflists))
       nil
     )
     ((null (cdr listoflists))
-      (cdr (car listoflists))
+      (cons (cdr (car listoflists)) nil)
     )
     (t
-      (cons (cdr (car listoflists)) (getrem (cdr listoflists)))
+      (cons (cdr (car listoflists)) (get-rest (cdr listoflists)))
     )
   )
 )
@@ -70,8 +68,8 @@
     )
     (t
       (cons
-        (getfirst mat)
-        (append (matrix-transpose (getrem mat)))
+        (get-first mat)
+        (matrix-transpose (get-rest mat))
       )
     )
   )
