@@ -17,12 +17,11 @@
     ((null first) ; Second is nil iff first is null
       nil
     )
-    ; matrix-add (1 2) (3 4)
     ((atom (car first)) ; Each matrix has only 1 row
       (row-add first second)
     )
     ((null (cdr first)) ; The next row after is empty
-      (matrix-add (car first) (car second))
+      (cons (matrix-add (car first) (car second)) nil)
     )
     (t
       (cons (matrix-add (car first) (car second))
