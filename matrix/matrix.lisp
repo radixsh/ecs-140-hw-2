@@ -99,9 +99,9 @@
 ; = [1*3 + 2*4    1*4 + 2*7]
 
 (defun dot-product (first second)
-  (print 'dotting)
-  (print first)
-  (print second)
+  ;(print 'dotting)
+  ;(print first)
+  ;(print second)
   (cond
     ((null (cdr first)) ; (cdr second) will also be nil
       (* (car first) (car second))
@@ -124,10 +124,6 @@
     ((or (null first) (null second)) 
       nil)
     (t
-      (print 'sendingtodot)
-      (print (car first))
-      (print (car second))
-      (print 'innergettingrow)
       (cons
         (dot-product first (car second))
         (get-row first (cdr second))
@@ -146,9 +142,9 @@
       (list (get-row (car first) (matrix-transpose second)))
     )
     (t
-      (list
+      (cons
         (get-row (car first) (matrix-transpose second))
-        (get-row (car (cdr first)) (matrix-transpose second))
+        (matrix-multiply (cdr first) (matrix-transpose second))
       )
     )
   )
