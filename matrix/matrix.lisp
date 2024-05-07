@@ -82,10 +82,21 @@
 ; is
 ; [ 3 4 ]  [ 1 5 ]
 ; [ 2 1 ]  [ 3 7 ]
+
+; [ 3 4 ]  [ 1 3 ]
+; [ 2 1 ]  [ 5 7 ]
+
 ; First cell:   3*1 + 4*3 = 15
 ; Second cell:  3*5 + 4*7 = 43
 ; Third cell:   2*1 + 1*3 = 5
 ; Fourth cell:  2*5 + 1*7 = 17
+; [ 15  43 ]
+; [  5  17 ]
+
+; Easier example:
+; [1 2]  *  [3  4]
+;           [4  7]
+; = [1*3 + 2*4    1*4 + 2*7]
 
 (defun dot-product (first second)
   (cond
@@ -101,22 +112,42 @@
   )
 )
 
+; Receives second matrix already transposed
+(defun get-dot-product (first second)
+  (print 'get-dot-prod)
+  (print (car second))
+  (cond
+    ((or (null first) (null second)) 
+      nil)
+    ((null (cdr second))
+      nil)
+    (t
+      (cons
+        (dot-product first (car second))
+        (get-dot-product first (car (cdr second)))
+      )
+    )
+  )
+)
+
 (defun matrix-multiply (first second)
+  (print 'mat-mult)
+  (print first)
+  (print second)
   (cond
     ((null first)
       nil
     )
-    ((not (null (get-rest second)))
-      
+    ((null (cdr first))
+      (get-dot-product first (matrix-transpose second))
     )
     (t
-      (print (dot-product (car first) (get-firsts second)))
       (cons
-        (dot-product (car first) (get-firsts second))
-        (matrix-multiply (cdr first) (get-rest second))
+        (get-dot-product (car first) (matrix-transpose second))
+        (get-dot-product (car (cdr first)) (car (cdr (matrix-transpose second))))
       )
+        ;(dot-product (car first) (car (matrix-transpose second)))
+        ;(matrix-multiply (cdr first) (car (matrix-transpose second)))
     )
   )
-  ;  (dot-product (car first) (get-firsts (car second)))
-  ;  (matrix-multiply (cdr first) (cdr second))
 )
