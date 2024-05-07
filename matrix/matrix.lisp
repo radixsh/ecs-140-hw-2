@@ -113,41 +113,32 @@
 )
 
 ; Receives second matrix already transposed
-(defun get-dot-product (first second)
-  (print 'get-dot-prod)
-  (print (car second))
+(defun get-row (first second)
   (cond
     ((or (null first) (null second)) 
-      nil)
-    ((null (cdr second))
       nil)
     (t
       (cons
         (dot-product first (car second))
-        (get-dot-product first (car (cdr second)))
+        (get-row first (cdr second))
       )
     )
   )
 )
 
 (defun matrix-multiply (first second)
-  (print 'mat-mult)
-  (print first)
-  (print second)
   (cond
     ((null first)
       nil
     )
     ((null (cdr first))
-      (get-dot-product first (matrix-transpose second))
+      (get-row first (matrix-transpose second))
     )
     (t
-      (cons
-        (get-dot-product (car first) (matrix-transpose second))
-        (get-dot-product (car (cdr first)) (car (cdr (matrix-transpose second))))
+      (list
+        (get-row (car first) (matrix-transpose second))
+        (get-row (car (cdr first)) (matrix-transpose second))
       )
-        ;(dot-product (car first) (car (matrix-transpose second)))
-        ;(matrix-multiply (cdr first) (car (matrix-transpose second)))
     )
   )
 )
