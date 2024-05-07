@@ -32,7 +32,7 @@
 )
 
 ; ((1 2) (3 4)) --> (1 3)
-(defun get-first (listoflists)
+(defun get-firsts (listoflists)
   (cond
     ((null (car listoflists))
       nil
@@ -41,7 +41,7 @@
       (cons (car (car listoflists)) nil)
     )
     (t
-      (cons (car (car listoflists)) (get-first (cdr listoflists)))
+      (cons (car (car listoflists)) (get-firsts (cdr listoflists)))
     )
   )
 )
@@ -67,13 +67,56 @@
     )
     (t
       (cons
-        (get-first mat)
+        (get-firsts mat)
         (matrix-transpose (get-rest mat))
       )
     )
   )
 )
 
-(defun matrix-multiply (mat1 mat2)
-  
+
+; ((3 4) (7 2) (5 9)) * ((3 1 5) (6 9 7))
+
+
+; ((3 4) (2 1)) * ((1 5) (3 7))
+; is
+; [ 3 4 ]  [ 1 5 ]
+; [ 2 1 ]  [ 3 7 ]
+; First cell:   3*1 + 4*3 = 15
+; Second cell:  3*5 + 4*7 = 43
+; Third cell:   2*1 + 1*3 = 5
+; Fourth cell:  2*5 + 1*7 = 17
+
+(defun dot-product (first second)
+  (cond
+    ((null (cdr first)) ; (cdr second) will also be nil
+      (* (car first) (car second))
+    )
+    (t
+      (+ 
+        (* (car first) (car second))
+        (dot-product (cdr first) (cdr second))
+      )
+    )
+  )
+)
+
+(defun matrix-multiply (first second)
+  (cond
+    ((null first)
+      nil
+    )
+    ((not (null (get-rest second)))
+      
+    )
+    (t
+      (print (dot-product (car first) (get-firsts second)))
+      (cons
+        (dot-product (car first) (get-firsts second))
+        (matrix-multiply (cdr first) (get-rest second))
+      )
+    )
+  )
+  ;  (dot-product (car first) (get-firsts (car second)))
+  ;  (matrix-multiply (cdr first) (cdr second))
 )
