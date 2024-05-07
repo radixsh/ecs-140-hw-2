@@ -99,6 +99,9 @@
 ; = [1*3 + 2*4    1*4 + 2*7]
 
 (defun dot-product (first second)
+  (print 'dotting)
+  (print first)
+  (print second)
   (cond
     ((null (cdr first)) ; (cdr second) will also be nil
       (* (car first) (car second))
@@ -114,10 +117,17 @@
 
 ; Receives second matrix already transposed
 (defun get-row (first second)
+  (print 'get-row)
+  (print first)
+  (print second)
   (cond
     ((or (null first) (null second)) 
       nil)
     (t
+      (print 'sendingtodot)
+      (print (car first))
+      (print (car second))
+      (print 'innergettingrow)
       (cons
         (dot-product first (car second))
         (get-row first (cdr second))
@@ -132,7 +142,8 @@
       nil
     )
     ((null (cdr first))
-      (get-row first (matrix-transpose second))
+      (print 'endingsoon)
+      (list (get-row (car first) (matrix-transpose second)))
     )
     (t
       (list
