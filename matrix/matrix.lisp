@@ -74,34 +74,7 @@
   )
 )
 
-
-; ((3 4) (7 2) (5 9)) * ((3 1 5) (6 9 7))
-
-
-; ((3 4) (2 1)) * ((1 5) (3 7))
-; is
-; [ 3 4 ]  [ 1 5 ]
-; [ 2 1 ]  [ 3 7 ]
-
-; [ 3 4 ]  [ 1 3 ]
-; [ 2 1 ]  [ 5 7 ]
-
-; First cell:   3*1 + 4*3 = 15
-; Second cell:  3*5 + 4*7 = 43
-; Third cell:   2*1 + 1*3 = 5
-; Fourth cell:  2*5 + 1*7 = 17
-; [ 15  43 ]
-; [  5  17 ]
-
-; Easier example:
-; [1 2]  *  [3  4]
-;           [4  7]
-; = [1*3 + 2*4    1*4 + 2*7]
-
 (defun dot-product (first second)
-  ;(print 'dotting)
-  ;(print first)
-  ;(print second)
   (cond
     ((null (cdr first)) ; (cdr second) will also be nil
       (* (car first) (car second))
@@ -117,9 +90,6 @@
 
 ; Receives second matrix already transposed
 (defun get-row (first second)
-  (print 'get-row)
-  (print first)
-  (print second)
   (cond
     ((or (null first) (null second)) 
       nil)
@@ -138,13 +108,12 @@
       nil
     )
     ((null (cdr first))
-      (print 'endingsoon)
       (list (get-row (car first) (matrix-transpose second)))
     )
     (t
       (cons
         (get-row (car first) (matrix-transpose second))
-        (matrix-multiply (cdr first) (matrix-transpose second))
+        (matrix-multiply (cdr first) second)
       )
     )
   )
